@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Cadastro</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+ 
+ 
+</head>
+<body>
+
+  <div class="login-container">
+   
+    <h2>Login</h2>
+        
+        
+    <form action="{% url 'listar_dados' %}" method="post">{% csrf_token %}
+
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
+
+      <label for="idade">Idade:</label>
+      <input type="text" id="idade" name="idade" required>
+
+      <button type="submit">Enviar</button>
+    </form>
+    {{mensagem}}
+  </div>
+  <table>
+    <tr>
+        <th>Nome</th>
+        <th>Idade</th>
+    </tr>
+    {% for igs in dados %}
+    <tr>
+        <td>{{igs.nome}}</td>
+        <td>{{igs.idade}}</td>
+    </tr>
+    {% endfor %}
+
+  </table>
+
+</body>
+</html>
