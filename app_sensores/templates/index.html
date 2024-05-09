@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página de Cadastro</title>
   <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
  
  
 </head>
@@ -20,10 +21,10 @@
     <form action="{% url 'listar_dados' %}" method="post">{% csrf_token %}
 
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required>
+      <input type="text" id="nome" name="nome" value="{{nome}}" required>
 
       <label for="idade">Idade:</label>
-      <input type="text" id="idade" name="idade" required>
+      <input type="text" id="idade" name="idade" value="{{idade}}" required>
 
       <button type="submit">Enviar</button>
     </form>
@@ -33,11 +34,15 @@
     <tr>
         <th>Nome</th>
         <th>Idade</th>
+        <th>Excluir</th>
+        <th>Editar</th>
     </tr>
     {% for igs in dados %}
     <tr>
         <td>{{igs.nome}}</td>
         <td>{{igs.idade}}</td>
+        <td><a href="/excluir_dados/{{igs.id}}"><span class="material-symbols-outlined">delete</span></a></td>
+				<td><a href="/abrir_edicao/{{igs.id}}"><span class="material-symbols-outlined">visibility</span></a></td>
     </tr>
     {% endfor %}
 
