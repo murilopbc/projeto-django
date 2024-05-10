@@ -3,27 +3,28 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .models import Pessoas
 
 def abrir_index(request):
-    return render(request, 'index.html')
+    dados = Pessoas.objects.all()
+    return render(request, 'index.html', {'dados': dados})
 
 def listar_dados(request):
-    if request.method == 'POST':
-        nome = request.POST.get('nome')
-        idade = request.POST.get('idade')
-        if Pessoas.objects.filter(nome=nome).exists():
-            mensagem = 'Este nome já está cadastrado.'
-        else:
-
-            gravarCadastro = Pessoas(
-                nome=nome,
-                idade=idade
-            )
-            gravarCadastro.save()
-
-            mensagem = (f'Dados do formulário: {nome} {idade}')
-            
-    dados = Pessoas.objects.all()
+    dados = Pessoas.objects.all()   
+    nome = request.POST.get('nome')
+    idade = request.POST.get('idade')
     
-    return render(request, 'index.html', {'mensagem': mensagem, 'dados': dados, 'nome': nome, 'idade': idade})
+    if Pessoas.objects.filter(nome=nome).exists():
+        mensagem = 'Este nome já está cadastrado.' 
+        return render(request, 'index.html', {'mensagem': mensagem,'dados': dados})
+    else:
+
+        gravarCadastro = Pessoas(
+            nome=nome,
+            idade=idade
+        )
+        gravarCadastro.save()
+
+        mensagem = (f'Dados do formulário: {nome} {idade}')
+         
+    return render(request, 'index.html', {'mensagem': mensagem,'dados': dados})
 
 
 def excluir_dados(request, id):
@@ -50,5 +51,5 @@ def editar_dados(request):
     pessoa.idade = idade
     
     pessoa.save()     
-    return render (request, 'index.html')
+    return redirect ('/')
     
